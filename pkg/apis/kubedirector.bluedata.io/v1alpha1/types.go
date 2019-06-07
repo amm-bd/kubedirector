@@ -47,9 +47,24 @@ type KubeDirectorCluster struct {
 // LoadBalancer services. The Roles field describes the requested cluster roles,
 // each of which will be implemented (by KubeDirector) using a StatefulSet.
 type ClusterSpec struct {
-	AppID       string  `json:"app"`
-	ServiceType *string `json:"serviceType"`
-	Roles       []Role  `json:"roles"`
+	DefaultSecret *KDSecret `json:"default_secret"`
+	AppID         string    `json:"app"`
+	ServiceType   *string   `json:"serviceType"`
+	Roles         []Role    `json:"roles"`
+}
+
+type KDSecret struct {
+	SecretName      string         `json:name`
+	SecretNamespace string         `json:namespace`
+	SecretPath      string         `json:secretpath`
+	DefaultMode     string         `json:defaultmode`
+	KDSecretItems   []KDSecretItem `json:items`
+}
+
+type KDSecretItem struct {
+	Key  string `json:key`
+	Path string `json:path`
+	Mode string `json:mode`
 }
 
 // EnvVar specifies environment variables for the start script in a
